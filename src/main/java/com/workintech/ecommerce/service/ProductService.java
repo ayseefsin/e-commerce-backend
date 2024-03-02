@@ -16,5 +16,5 @@ public interface ProductService {
     Product deleteProduct(Product product);
 
     List<Product> getProductsByCategory(long categoryId);
-
+    List<Product> getProductsByName(String name);
 }

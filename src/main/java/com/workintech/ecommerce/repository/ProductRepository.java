@@ -12,4 +12,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     @Query(value = "SELECT p FROM Product p WHERE p.category = :category" )
     List<Product> getProductsByCategory(Category category);
+
+    @Query(value = "SELECT p FROM Product p WHERE p.name ILIKE %:name%")
+    List<Product> getProductsByName(String name);
 }

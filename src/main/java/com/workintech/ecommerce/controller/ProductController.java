@@ -28,6 +28,11 @@ public class ProductController {
         List<Product> categoryProducts = productService.getProductsByCategory(categoryId);
         return Converter.convertProductList(categoryProducts);
     }
+    @GetMapping("/name/{name}")
+    public List<ProductResponse> getProductsByName(@PathVariable String name){
+        List<Product> products= productService.getProductsByName(name);
+        return Converter.convertProductList(products);
+    }
 
     @PostMapping("/{categoryId}")
     public ProductResponse save(@RequestBody Product product , @PathVariable long categoryId){
@@ -37,5 +42,19 @@ public class ProductController {
         productService.save(product);
         return new ProductResponse(product.getName());
     }
+    @PutMapping("/{categoryId}")
+    public ProductResponse updateProductCategory(@PathVariable long categoryId, @RequestBody Product product){
+       Product foundproduct =  productService.getProductById(product.getId());
+       foundproduct.setCategory(categoryService.getCategoryById(categoryId));
+       productService.save(foundproduct);
+       return new ProductResponse(foundproduct.getName());
+    }
+    @DeleteMapping("/{productId}")
+    public ProductResponse deleteProductById(@PathVariable long productId){
+        Product foundProduct = productService.getProductById(productId);
+        productService.deleteProduct(foundProduct);
+        return new ProductResponse(foundProduct.getName());
+    }
+
 
 }

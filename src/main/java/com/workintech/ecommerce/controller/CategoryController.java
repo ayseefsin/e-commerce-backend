@@ -4,19 +4,16 @@ import com.workintech.ecommerce.dto.CategoryResponse;
 import com.workintech.ecommerce.entity.Category;
 import com.workintech.ecommerce.service.CategoryService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Validated
 @RestController
 @AllArgsConstructor
-@RequestMapping("/category")
+@RequestMapping("v1/category")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -51,6 +48,13 @@ public class CategoryController {
        categoryService.save(foundCategory);
         return new CategoryResponse(foundCategory.getName());
 
+    }
+
+    @DeleteMapping("/{categoryId}")
+    public CategoryResponse deleteCategory(@PathVariable long categoryId){
+        Category foundCategory= categoryService.getCategoryById(categoryId);
+        categoryService.deleteCategory(foundCategory);
+      return new CategoryResponse(foundCategory.getName()) ;
     }
 
 }

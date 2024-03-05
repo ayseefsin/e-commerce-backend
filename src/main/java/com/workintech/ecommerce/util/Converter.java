@@ -11,7 +11,7 @@ public class Converter {
     public static List<ProductResponse> convertProductList(List<Product> products){
         List< ProductResponse > productResponses=new ArrayList<>();
         for(Product product : products){
-            productResponses.add(new ProductResponse(product.getName()));
+            productResponses.add(new ProductResponse(product.getName(), product.getImgUrl(), product.getPrice()));
         }
         return productResponses ;
     }

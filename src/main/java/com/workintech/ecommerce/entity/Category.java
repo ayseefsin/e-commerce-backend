@@ -1,6 +1,7 @@
 package com.workintech.ecommerce.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Category {
     @Column(name = "img_url")
     private String imgUrl;
 
+    @Size(min = 3  , max = 20 , message = "name must be name between 3 and 20 characters")
     private String name;
 
     @OneToMany(mappedBy="category", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

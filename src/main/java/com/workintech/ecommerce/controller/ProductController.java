@@ -7,14 +7,16 @@ import com.workintech.ecommerce.service.CategoryService;
 import com.workintech.ecommerce.service.ProductService;
 import com.workintech.ecommerce.util.Converter;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
+@Validated
 @AllArgsConstructor
-@RequestMapping("/product")
+@RequestMapping("v1/product")
 public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
@@ -40,20 +42,20 @@ public class ProductController {
         category.addProduct(product);
         product.setCategory(category);
         productService.save(product);
-        return new ProductResponse(product.getName());
+        return new ProductResponse(product.getName(),product.getImgUrl(), product.getPrice());
     }
     @PutMapping("/{categoryId}")
     public ProductResponse updateProductCategory(@PathVariable long categoryId, @RequestBody Product product){
        Product foundproduct =  productService.getProductById(product.getId());
        foundproduct.setCategory(categoryService.getCategoryById(categoryId));
        productService.save(foundproduct);
-       return new ProductResponse(foundproduct.getName());
+       return new ProductResponse(foundproduct.getName(),foundproduct.getImgUrl(), foundproduct.getPrice());
     }
     @DeleteMapping("/{productId}")
     public ProductResponse deleteProductById(@PathVariable long productId){
         Product foundProduct = productService.getProductById(productId);
         productService.deleteProduct(foundProduct);
-        return new ProductResponse(foundProduct.getName());
+        return new ProductResponse(foundProduct.getName(), foundProduct.getImgUrl(), foundProduct.getPrice());
     }
 
 
